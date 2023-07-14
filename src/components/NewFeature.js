@@ -25,7 +25,7 @@ const NewFeature = () => {
                 top={-1}
                 onClick={onClose}
             />
-        </Alert>) : (<Button onClick={onOpen}>Show Update</Button>)
+        </Alert>) : (<Button colorScheme={'blue'} onClick={onOpen} variant='outline'>New Features</Button>)
 }
 
 export default NewFeature
