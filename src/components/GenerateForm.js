@@ -10,7 +10,7 @@ const renderExperiences = experiences.map(experience => (
 
 const GenerateForm = () => {
     const [formValues, setFormValues] = useState({
-        game: {},
+        game: '',
         experience: '',
         spoilerFree: false,
         newTips: false
@@ -92,10 +92,10 @@ const GenerateForm = () => {
                     <Checkbox value={formValues.newTips} onChange={handleNewTipsToggle}>Tips you haven't seen yet?</Checkbox>
                 </FormControl>
                 <Button 
-                    isDisabled={!formValues.game.label}
+                    isDisabled={!formValues.game.value}
                     width='100%' 
                     my={4} 
-                    colorScheme={formValues.game.label ? "green" : "gray" }
+                    colorScheme={formValues.game.value ? "green" : "gray" }
                     variant='solid'
                     type='submit'>
                     Generate Gaming Tip
