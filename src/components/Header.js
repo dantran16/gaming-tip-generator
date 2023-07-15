@@ -17,7 +17,7 @@ const Header = () => (
           fontWeight={700}
         >
             <Link to="/">Home</Link>
-            <Link to="/bookmarks">Bookmarks</Link>
+            {/* <Link to="/bookmarks">Bookmarks</Link> */}
             <Link to="/games">Games</Link>
         </Stack>
         <div>
