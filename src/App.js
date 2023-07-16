@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Games from './pages/Games';
 import Bookmarks from './pages/Bookmarks';
 import NewFeature from './components/NewFeature';
+import TipList from './pages/TipList';
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
         <Header />
         <NewFeature />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/bookmarks" element={<Bookmarks />}></Route>
-          <Route path="/games" element={<Games />}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/bookmarks" element={<Bookmarks />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/games/:id" element={<TipList />} />
         </Routes>
       </Container>
     </BrowserRouter>

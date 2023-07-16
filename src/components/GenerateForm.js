@@ -58,12 +58,16 @@ const GenerateForm = () => {
             }
         })
     }
+    const handleSubmit = e => {
+        e.preventDefault()
+    }
+
     useEffect(() =>{
         console.log(formValues)
     })
     return (
         <Box>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <FormControl my={4} isRequired>
                     <FormLabel>Game</FormLabel>
                     <AsyncSelect 

@@ -23,9 +23,12 @@ const GamesForm = () => {
     }
     const handleKeyDown = (e) => {
         setGameSearchInput(e.target.value)
+        if(gameSearchInput.length){
+            setGameInput('')
+        }
     }
     useEffect(() =>{
-        console.log(gameSearchInput)
+        console.log(gameInput)
     })
 
     const renderGames = () => {
@@ -34,7 +37,7 @@ const GamesForm = () => {
                 {games
                     .filter(game => game.label.toLowerCase().includes(gameSearchInput.toLowerCase()))
                     .map(filteredGame => {
-                        return <GameCard key={filteredGame.label} title={filteredGame.label} description={filteredGame.description}/>
+                        return <GameCard id={filteredGame.id} key={filteredGame.label} title={filteredGame.label} description={filteredGame.description}/>
                     })
                 }
             </Box>
@@ -43,8 +46,8 @@ const GamesForm = () => {
 
     return (
         <Box>
-            <FormControl my={4} isRequired>
-                <FormLabel>Game</FormLabel>
+            <FormControl my={4}>
+                <FormLabel>Find your Game</FormLabel>
                 <AsyncSelect 
                     placeholder="Select your game..." 
                     cacheOptions 
