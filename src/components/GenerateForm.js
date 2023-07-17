@@ -81,10 +81,10 @@ const GenerateForm = ({ setTipHistory }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const filteredTips = copiedTips
-      .filter((tip) => tip.game_id === formValues.game.id)
+      .filter((tip) => tip.gameId === formValues.game.id)
       .filter(
         (tip) =>
-          formValues.experience === "" || tip.experience_id === experiences.filter(
+          formValues.experience === "" || tip.experienceId === experiences.filter(
             (experience) => experience.label === formValues.experience
           )[0].id
       )

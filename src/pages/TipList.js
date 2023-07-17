@@ -15,7 +15,7 @@ import TipCard from "../components/TipCard";
 const TipList = () => {
     const { id } = useParams()
     const game = games.filter(li => li.id === id)[0]
-    const filteredTips = tips.filter(tip => tip.game_id === id)
+    const filteredTips = tips.filter(tip => tip.gameId === id)
 
     const renderTips = () => filteredTips.map(tip => (
         <TipCard tip={tip} key={tip.id}/>
