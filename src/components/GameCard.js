@@ -23,11 +23,11 @@ const GameCard = ({id, title, description}) => {
                             {description}
                         </Text>
                     </CardBody>
-                    <CardFooter>
+                    {/* <CardFooter>
                         <Button colorScheme='red'>
                             Report Game
                         </Button>
-                    </CardFooter>
+                    </CardFooter> */}
                 </Stack>
             </Card>
         </Link>
