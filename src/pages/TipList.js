@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useState,useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import HeadingOne from "../components/HeadingOne";
 import { useParams } from "react-router-dom";
-import { games,tips } from "../dummy";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -12,19 +11,35 @@ import { Link } from "react-router-dom";
 import TipCard from "../components/TipCard";
 
 
-const TipList = () => {
+const TipList = ({experiences}) => {
     const { id } = useParams()
-    const game = games.filter(li => li.id === id)[0]
-    const filteredTips = tips.filter(tip => tip.gameId === id)
+    const [tips, setTips] = useState([])
+    const [game, setGame] = useState({})
 
-    const renderTips = () => filteredTips.map(tip => (
-        <TipCard tip={tip} key={tip.id}/>
+    const renderTips = () => tips.map(tip => (
+        <TipCard tip={tip} game={game} experiences={experiences} key={tip._id}/>
     ))
 
+    const loadTips = async() => {
+        const response = await fetch(`http://127.0.0.1:8000/tips?game_id=${id}`);
+        const tipsData = await response.json();
+        setTips(tipsData);
+      }
+    const loadGame = async() => {
+        const response = await fetch(`http://127.0.0.1:8000/games/${id}`)
+        const gameData = await response.json()
+        const transformedGameData = {
+            ...gameData,
+            label: gameData.title,
+            value: gameData.title
+        }
+        setGame(transformedGameData)
+    }
+
     useEffect(() => {
-        console.log(id)
-        console.log(filteredTips)
-    })
+        loadGame()
+        loadTips()
+    }, [])
 
     return (
     <Box p={2} className="tiplist">

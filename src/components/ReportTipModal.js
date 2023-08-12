@@ -24,15 +24,13 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { games } from "../dummy";
 import { useState } from "react";
 
-const ReportTipModal = ({ isOpen, onClose, tip }) => {
+const ReportTipModal = ({ isOpen, onClose, tip, game }) => {
   const popoverDisclosure = useDisclosure();
   const toast = useToast();
 
-  const { title, gameId, id } = tip;
-  const game = games.filter((game) => game.id === gameId)[0];
+  const { title, _id } = tip;
 
   const handleReportClick = () => {
     popoverDisclosure.onToggle();
@@ -72,8 +70,8 @@ const ReportTipModal = ({ isOpen, onClose, tip }) => {
   const [reportForm, setReportForm] = useState({
     description: "",
     reportType: "",
-    game_id: gameId,
-    tip: id,
+    game_id: game._id,
+    tip: _id,
   });
 
   const isDisabled = reportForm.description.trim() === '' || reportForm.reportType === ''

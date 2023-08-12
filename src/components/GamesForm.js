@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FormControl, FormLabel, Box } from "@chakra-ui/react"
 import AsyncSelect from 'react-select/async';
-import { games } from "../dummy";
 import GameCard from "./GameCard";
 
-const GamesForm = () => {
+const GamesForm = ({games}) => {
     const [gameSearchInput, setGameSearchInput] = useState('');
     const [gameInput, setGameInput] = useState('')
 
@@ -12,10 +11,10 @@ const GamesForm = () => {
         return games.filter(game => game.label.toLowerCase().includes(inputValue.toLowerCase()))
     }
     
-    const loadGames = (inputValue, callback) => {
+    const loadFilteredGames = (inputValue, callback) => {
         setTimeout(() => {
             callback(filterGames(inputValue))
-        }, 1000)
+        }, 500)
     }
     const handleGameSelect = (game) => {
         setGameInput(game)
@@ -27,9 +26,6 @@ const GamesForm = () => {
             setGameInput('')
         }
     }
-    useEffect(() =>{
-        console.log(gameInput)
-    })
 
     const renderGames = () => {
         return (
@@ -37,7 +33,7 @@ const GamesForm = () => {
                 {games
                     .filter(game => game.label.toLowerCase().includes(gameSearchInput.toLowerCase()))
                     .map(filteredGame => {
-                        return <GameCard id={filteredGame.id} key={filteredGame.label} title={filteredGame.label} description={filteredGame.description}/>
+                        return <GameCard id={filteredGame._id} key={filteredGame._id} title={filteredGame.label} description={filteredGame.description}/>
                     })
                 }
             </Box>
@@ -51,8 +47,8 @@ const GamesForm = () => {
                 <AsyncSelect 
                     placeholder="Select your game..." 
                     cacheOptions 
-                    loadOptions={loadGames} 
-                    defaultOptions
+                    loadOptions={loadFilteredGames} 
+                    defaultOptions={games}
                     value={gameInput}
                     onChange={handleGameSelect}
                     onKeyDown={handleKeyDown}

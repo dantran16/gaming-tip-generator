@@ -3,9 +3,13 @@ import HeadingOne from "../components/HeadingOne";
 import GenerateForm from "../components/GenerateForm";
 import TipCard from "../components/TipCard";
 
-const Home = ({ tipHistory, setTipHistory }) => {
+const Home = ({ tipHistory, setTipHistory, experiences, games }) => {
+  
   const renderTips = () =>
-    tipHistory.map((tip) => <TipCard tip={tip} key={tip.id} />);
+    tipHistory.map((tip) => {
+      const game = games.filter(game => game._id === tip.game_id)[0]
+      return (<TipCard tip={tip} game={game} experiences={experiences} key={tip._id}/>)
+    });
 
   return (
     <Box p={2} className="home">
@@ -18,7 +22,7 @@ const Home = ({ tipHistory, setTipHistory }) => {
         <ListItem>To filter more, click on Filter Options.</ListItem>
         <ListItem>Click on Generate Gaming Tip.</ListItem>
       </OrderedList>
-      <GenerateForm setTipHistory={setTipHistory} />
+      <GenerateForm tipHistory={tipHistory} games={games} experiences={experiences} setTipHistory={setTipHistory} />
       <Box p={2}>{tipHistory.length > 0 && renderTips()}</Box>
     </Box>
   );

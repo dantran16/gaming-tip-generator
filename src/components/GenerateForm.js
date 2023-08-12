@@ -16,21 +16,27 @@ import {
   AccordionPanel,
 } from "@chakra-ui/react";
 import AsyncSelect from "react-select/async";
-import { games, experiences, tips } from "../dummy";
 
-const renderExperiences = experiences.map((experience) => (
-  <option value={experience.value}>{experience.label}</option>
-));
 
-const copiedTips = [...tips];
-
-const GenerateForm = ({ setTipHistory }) => {
+const GenerateForm = ({ setTipHistory, games, experiences, tipHistory }) => {
   const [formValues, setFormValues] = useState({
     game: "",
     experience: "",
-    spoilerFree: false,
+    spoiler_free: false,
     newTips: false,
   });
+  const [gamingTips, setGamingTips] = useState([])
+
+
+  const loadGamingTips = async () => {
+    const response = await fetch('http://127.0.0.1:8000/tips');
+    const gamingTips = await response.json();
+    setGamingTips(gamingTips);
+  } 
+  
+  const renderExperiences = experiences.map((experience) => (
+    <option value={experience.level}>{experience.label}</option>
+  ));
 
   const toast = useToast();
   const renderErrorMessage = (errMessage) =>
@@ -48,7 +54,7 @@ const GenerateForm = ({ setTipHistory }) => {
     );
   };
 
-  const loadGames = (inputValue, callback) => {
+  const loadFilteredGames = (inputValue, callback) => {
     setTimeout(() => {
       callback(filterGames(inputValue));
     }, 1000);
@@ -73,29 +79,32 @@ const GenerateForm = ({ setTipHistory }) => {
     setFormValues((prevFormValues) => {
       return {
         ...prevFormValues,
-        spoilerFree: e.target.checked,
+        spoiler_free: e.target.checked,
       };
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const filteredTips = copiedTips
-      .filter((tip) => tip.gameId === formValues.game.id)
+    const filteredTips = gamingTips
+      .filter((tip) => tip.game_id === formValues.game._id)
       .filter(
         (tip) =>
-          formValues.experience === "" || tip.experienceId === experiences.filter(
-            (experience) => experience.label === formValues.experience
-          )[0].id
+          formValues.experience === "" || tip.experience_id === experiences.filter(
+            (experience) => experience.level === formValues.experience
+          )[0]._id
       )
       .filter(
         (tip) =>
-          !formValues.spoilerFree || formValues.spoilerFree === tip.spoilerFree
+          !formValues.spoiler_free || formValues.spoiler_free === tip.spoiler_free
+      )
+      .filter(
+        (tip) => 
+          !tipHistory.find(oldTip => tip._id === oldTip._id)
       );
     if (filteredTips.length) {
       const newTip =
         filteredTips[Math.floor(Math.random() * filteredTips.length)];
-      copiedTips.splice(copiedTips.indexOf(newTip), 1);
       setTipHistory((prev) => {
         return [newTip, ...prev];
       });
@@ -107,8 +116,10 @@ const GenerateForm = ({ setTipHistory }) => {
   };
 
   useEffect(() => {
-    console.log(formValues);
-  });
+    loadGamingTips()
+    
+  }, [])
+
   return (
     <Box>
       <form onSubmit={handleSubmit}>
@@ -117,8 +128,8 @@ const GenerateForm = ({ setTipHistory }) => {
           <AsyncSelect
             placeholder="Select your game..."
             cacheOptions
-            loadOptions={loadGames}
-            defaultOptions
+            loadOptions={loadFilteredGames}
+            defaultOptions={games}
             value={formValues.game}
             onChange={handleGameSelect}
           />
@@ -149,7 +160,7 @@ const GenerateForm = ({ setTipHistory }) => {
             </FormControl>
             <FormControl my={4}>
                 <Checkbox
-                value={formValues.spoilerFree}
+                value={formValues.spoiler_free}
                 onChange={handleSpolilerFreeToggle}
                 >
                 Spoiler Free Only?

@@ -1,4 +1,4 @@
-import { Card, CardFooter, CardBody, Image, Stack, Heading, Text, Button } from "@chakra-ui/react"
+import { Card, CardBody, Image, Stack, Heading, Text, Button } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 const GameCard = ({id, title, description}) => {
     return (
