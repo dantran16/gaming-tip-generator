@@ -6,4 +6,5 @@ Front End: React.js
 Back-end: MongoDB + Python (from partner's backend API)
 
 Demo Link (No data): https://gaming-tip-generator.vercel.app/
+
 Video Demo Link: https://www.youtube.com/watch?v=wn8Z3cgKl8I
